@@ -3,7 +3,7 @@
     "name": "Quartz",
     "locality": "Switzerland",
     "description": "A common and widely distributed mineral consisting of silicon dioxide.",
-    "images": ["quartz.jpg", "quartz_macro1.jpg"]
+    "images": ["quartz.jpg", "quartz-macro1.jpg"]
   },
   {
     "name": "Calcite",
@@ -15,12 +15,12 @@
     "name": "Rutile",
     "locality": "Brazil",
     "description": "Titanium dioxide mineral often found as reddish-brown needle-like crystals.",
-    "images": ["rutile.jpg", "rutile_macro1.jpg"]
+    "images": ["rutile.jpg", "rutile-macro1.jpg"]
   },
   {
     "name": "Wulfenite",
     "locality": "Arizona, USA",
     "description": "Bright orange-red mineral with thin tabular crystals.",
-    "images": ["wulfenite.jpg", "wulfenite_macro1.jpg"]
+    "images": ["wulfenite.jpg", "wulfenite-macro1.jpg"]
   }
 ]
