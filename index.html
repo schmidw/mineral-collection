@@ -5,33 +5,58 @@
   <title>Mineral Collection</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-900">
-  <header class="bg-white shadow p-4">
-    <h1 class="text-3xl font-bold text-center">Museum of Minerals</h1>
-    <p class="text-center text-sm text-gray-600">A curated personal collection</p>
-  </header>  <main class="p-6">
-    <div id="gallery" class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"></div>
-  </main>  <script>
-    const gallery = document.getElementById("gallery");
+<body class="bg-gray-100">
+  <div class="container mx-auto py-8">
+    <h1 class="text-3xl font-bold mb-6 text-center">Mineral Collection</h1>
+    <div id="gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+  </div>  <!-- Modal -->  <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg p-6 max-w-3xl w-full relative">
+      <button id="closeModal" class="absolute top-2 right-2 text-gray-600 hover:text-black">&times;</button>
+      <h2 id="modalTitle" class="text-2xl font-bold mb-2"></h2>
+      <p id="modalDescription" class="text-gray-700 mb-2"></p>
+      <p id="modalLocality" class="text-sm text-gray-500 mb-4"></p>
+      <div id="modalImages" class="grid grid-cols-2 md:grid-cols-3 gap-2"></div>
+    </div>
+  </div>  <script>
+    async function loadMinerals() {
+      const response = await fetch('minerals.json');
+      const minerals = await response.json();
+      const gallery = document.getElementById('gallery');
 
-    fetch("minerals.json")
-      .then((response) => response.json())
-      .then((data) => {
-        data.forEach((mineral) => {
-          const card = document.createElement("div");
-          card.className = "bg-white shadow rounded-lg overflow-hidden hover:shadow-lg transition";
-
-          card.innerHTML = `
-            <img src="assets/${mineral.images[0]}" alt="${mineral.name}" class="w-full h-48 object-cover">
-            <div class="p-4">
-              <h2 class="text-xl font-semibold">${mineral.name}</h2>
-              <p class="text-sm text-gray-500">${mineral.locality}</p>
-              <p class="mt-2 text-sm">${mineral.description}</p>
-            </div>
-          `;
-
-          gallery.appendChild(card);
-        });
+      minerals.forEach((mineral, index) => {
+        const card = document.createElement('div');
+        card.className = 'bg-white rounded shadow hover:shadow-lg cursor-pointer';
+        card.innerHTML = `
+          <img src="assets/${mineral.images[0]}" alt="${mineral.name}" class="w-full h-48 object-cover rounded-t">
+          <div class="p-2 text-center font-medium">${mineral.name}</div>
+        `;
+        card.addEventListener('click', () => showModal(mineral));
+        gallery.appendChild(card);
       });
+    }
+
+    function showModal(mineral) {
+      document.getElementById('modalTitle').textContent = mineral.name;
+      document.getElementById('modalDescription').textContent = mineral.description;
+      document.getElementById('modalLocality').textContent = `Locality: ${mineral.locality}`;
+
+      const modalImages = document.getElementById('modalImages');
+      modalImages.innerHTML = '';
+      mineral.images.forEach(image => {
+        const img = document.createElement('img');
+        img.src = `assets/${image}`;
+        img.alt = mineral.name;
+        img.className = 'object-cover w-full h-32 rounded';
+        modalImages.appendChild(img);
+      });
+
+      document.getElementById('modal').classList.remove('hidden');
+    }
+
+    document.getElementById('closeModal').addEventListener('click', () => {
+      document.getElementById('modal').classList.add('hidden');
+    });
+
+    loadMinerals();
   </script></body>
 </html>
